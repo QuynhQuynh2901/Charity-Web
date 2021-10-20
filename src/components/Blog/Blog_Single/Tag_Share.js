@@ -7,7 +7,7 @@ import { Modal, Tabs, Tooltip, Input } from 'antd';
 import { contexts } from '../../../context/context'
 import { report } from '../../../context/report'
 import { useHistory } from "react-router-dom";
-import { Badge, List, ListSubheader, ListItem,ListItemText, ListItemSecondaryAction, Checkbox, TextArea} from '@material-ui/core';
+import { Badge, List, ListSubheader, ListItem,ListItemText, ListItemSecondaryAction, Checkbox} from '@material-ui/core';
 import AvatarGroup from '@material-ui/lab/AvatarGroup';
 import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
@@ -60,7 +60,7 @@ const TagAndShare = () => {
     const hashTags = (props = hashTag.detail.hashtag) =>
         props && props.map((hashTagItem) => {
             return (
-                <a href="#blog-tag">{"#" + `${hashTagItem.name}`}</a>
+                <a href="#blog-tag">{`#${hashTagItem.name}`}</a>
             )
         })
 
@@ -77,7 +77,7 @@ const TagAndShare = () => {
             method: "GET",
             url: 'http://127.0.0.1:8000/api/emotions/'
         }).catch(err => { console.log(err) })
-        console.log(a)
+        // console.log(a)
         listEmotion.list = a.data
         setGetEmotionSuccess(true)
     }
@@ -87,10 +87,14 @@ const TagAndShare = () => {
     const postEmotion = async (id) => {
         if (context.authorization) {
             let url = 'api/newspost/' + hashTag.detail.id + '/emotions/?emotion_type=' + id
-            let a = await callApi(url, 'PATCH', null, null).then(res => {
+            try {
+                let res = await callApi(url, 'PATCH', null, null)
                 if (res.status === 200 || res.status === 201)
                     alert("bạn thả emotion cho bài viết thành công")
-            })
+            } catch (err) {
+                console.error("tag_share.js -> postEmotion",err.response);
+            }
+            
         }
         else {
             history.replace("/login")
@@ -101,7 +105,7 @@ const TagAndShare = () => {
     const renderEmotion = (props = listEmotion.list) =>{
 
         let emotion_of_user = listEmotion.emotion?.data?.filter(i => i.user.id === context.dataProfile.id)[0]
-        console.log(emotion_of_user,context.dataProfile.id)
+        // console.log(emotion_of_user,context.dataProfile.id)
 
         return props && props.map((emotionItem) => {
             if(emotionItem.id === emotion_of_user?.type){
@@ -131,7 +135,7 @@ const TagAndShare = () => {
         listEmotion.emotion = a.data
         setEmotion(a.data.results)
         setPostEmotionSuccess(true)
-        console.log("tông: ", listEmotion.emotion.statistical.length)
+        // console.log("tông: ", listEmotion.emotion.statistical.length)
     }
 
     useEffect(() => {
@@ -153,7 +157,7 @@ const TagAndShare = () => {
                     }
                     key={emotionItem.id}
                 >
-                    {listEmotion.emotion.data && listEmotion.emotion.data.filter(d => d.type == emotionItem.id).map(res => {
+                    {listEmotion.emotion.data && listEmotion.emotion.data.filter(d => d.type === emotionItem.id).map(res => {
                         return (
                             <div style={{ margin: "5px", fontSize: "15px", display: "flex" }}>
                                 <Badge
@@ -177,10 +181,6 @@ const TagAndShare = () => {
             )
         }
         )
-
-
-
-
 
     const getEmotionGroup = () =>
         listEmotion.emotion.statistical && listEmotion.emotion.statistical.map((emotionItem) => {

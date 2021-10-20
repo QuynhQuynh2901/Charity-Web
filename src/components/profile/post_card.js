@@ -1,8 +1,8 @@
 import React, { useContext, useState, createRef } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import {
-     CardContent, Avatar, CardHeader, Card, IconButton,
-     TextField, MenuItem, Button
+    CardContent, Avatar, CardHeader, Card, IconButton,
+    TextField, MenuItem, Button
 }
     from "@material-ui/core";
 import {
@@ -18,7 +18,7 @@ import { InputNumber } from 'antd';
 import { DatePicker, Space } from 'antd';
 import dateFormat from 'dateformat';
 import moment from 'moment';
-import {MyCustomUploadAdapterPlugin} from '../../utils/ckeditor_upload_image';
+// import {MyCustomUploadAdapterPlugin} from '../../utils/ckeditor_upload_image';
 
 const useStylesCard = makeStyles((theme) => ({
 
@@ -45,7 +45,7 @@ const useStylesCard = makeStyles((theme) => ({
     button: {
         '& > *': {
             margin: theme.spacing(1),
-          },
+        },
     }
 }));
 
@@ -57,32 +57,32 @@ const PostCard = (props) => {
         image: '',
         title: '',
         description: '',
-        hashtag: '', 
+        hashtag: '',
         content: '',
     });
-    
-    const validate = (fieldValues = state) =>{
+
+    const validate = (fieldValues = state) => {
         let temp = { ...errors }
-        if('category' in fieldValues)
-            temp.category =  fieldValues.category ? "" : "this field is required."
-        if('image' in fieldValues) {
-            console.log(fieldValues.image)  
-            temp.image =  fieldValues.image ? "" : "Do not leave this field blank"
+        if ('category' in fieldValues)
+            temp.category = fieldValues.category ? "" : "this field is required."
+        if ('image' in fieldValues) {
+            console.log(fieldValues.image)
+            temp.image = fieldValues.image ? "" : "Do not leave this field blank"
         }
-        if('title' in fieldValues) 
-            temp.title =  fieldValues.title ? "" : "this field is required."
-        if('description' in fieldValues) 
-            temp.description =  fieldValues.description ? "" : "Do not leave this field blank"
-        if('hashtag' in fieldValues) 
-        temp.hashtag =  fieldValues.hashtag ? "" : "Do not leave this field blank"
-        
-        
+        if ('title' in fieldValues)
+            temp.title = fieldValues.title ? "" : "this field is required."
+        if ('description' in fieldValues)
+            temp.description = fieldValues.description ? "" : "Do not leave this field blank"
+        if ('hashtag' in fieldValues)
+            temp.hashtag = fieldValues.hashtag ? "" : "Do not leave this field blank"
+
+
         setErrors({
             ...temp
         })
         if (fieldValues === state)
             return Object.state(temp).every(x => x === "")
-        
+
 
     }
 
@@ -94,36 +94,41 @@ const PostCard = (props) => {
         // console.log(event)
         // console.log(event[0]._d.getDate())
         const target = event.target;
-        const {name, value} = target;
-        if(name === 'hashtag' && name !== null)
-        {
-            setState({...state,
-                hashtag: value.split('#')})
+        const { name, value } = target;
+        if (name === 'hashtag' && name !== null) {
+            setState({
+                ...state,
+                hashtag: value.split('#')
+            })
         }
         else
-            setState({...state,
-                    [name]: value,
-                });
-        
+            setState({
+                ...state,
+                [name]: value,
+            });
+
         validate({ [name]: value })
-        
+
     }
-    const handleCkEditor = (event, editor) =>{
+    const handleCkEditor = (event, editor) => {
         const data = editor.getData();
-        setState({...state,
+        setState({
+            ...state,
             content: data
         })
         console.log(data)
     }
     const handleChangeDate = (event) => {
-        setState({...state,
-            start_datetime: dateFormat(event[0]._d,"yyyy-mm-dd h:MM:ss"),
-            end_datetime: dateFormat(event[1]._d,"yyyy-mm-dd h:MM:ss"), 
-        
+        setState({
+            ...state,
+            start_datetime: dateFormat(event[0]._d, "yyyy-mm-dd h:MM:ss"),
+            end_datetime: dateFormat(event[1]._d, "yyyy-mm-dd h:MM:ss"),
+
         })
     }
     const handleChangePrice = (event) => {
-        setState({...state,
+        setState({
+            ...state,
             price_start: event,
 
         })
@@ -134,13 +139,13 @@ const PostCard = (props) => {
         return current && current < moment().endOf('day');
     }
     //không cho chọn những giờ trước của ngày hiện tại
-    
+
 
     // const disabledRangeTime = (current) => {
     //     return current && current < moment().endOf('hours');
     //   }
 
-    const submitHandle = (e) =>{
+    const submitHandle = (e) => {
         e.preventDefault()
         console.log(state)
     }
@@ -150,7 +155,7 @@ const PostCard = (props) => {
             category: '',
             image: '',
             title: '',
-            description: '', 
+            description: '',
             hashtag: '',
             content: '',
 
@@ -158,53 +163,53 @@ const PostCard = (props) => {
         setErrors({})
     }
 
-    const auction = () =>{
+    const auction = () => {
         const { RangePicker } = DatePicker;
-        if(state.category === 1)
-            return(
+        if (state.category === 1)
+            return (
                 <>
-                     <div className={classes.post}>
-                        <label style={{color : "#a5a2a2", font: "small"}}>StartDay - EndDay</label>
-                        <Space direction="vertical" size={12} style={{width: "100%"}}>
-                            <RangePicker  
-                                onChange ={handleChangeDate}  
-                                disabledDate={disabledDate} 
+                    <div className={classes.post}>
+                        <label style={{ color: "#a5a2a2", font: "small" }}>StartDay - EndDay</label>
+                        <Space direction="vertical" size={12} style={{ width: "100%" }}>
+                            <RangePicker
+                                onChange={handleChangeDate}
+                                disabledDate={disabledDate}
                                 // disabledTime={disabledRangeTime}
-                                ref={date} 
+                                ref={date}
                                 showTime={{
                                     hideDisabledOptions: true,
                                     defaultValue: [moment('00:00:00', 'HH:mm:ss'), moment('11:59:59', 'HH:mm:ss')],
                                 }}
                                 format="YYYY-MM-DD HH:mm:ss" />
-                        </Space> 
+                        </Space>
                     </div>
                     <div className={classes.post}>
-                        <label style={{color : "#a5a2a2", font: "small"}}>Price</label>
+                        <label style={{ color: "#a5a2a2", font: "small" }}>Price</label>
                         <InputNumber
                             min={1}
-                            style={{width: "100%"}}
-                            formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',' +'vnd')}
+                            style={{ width: "100%" }}
+                            formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',vnd')}
                             parser={value => value.replace(/\$\s?|(,*)/g, '')}
-                            onChange ={handleChangePrice}
-                            />
+                            onChange={handleChangePrice}
+                        />
                     </div>
-                   
+
                 </>
             )
     }
 
     const postNews = async () => {
-        let post = {...state}
+        let post = { ...state }
         let form = new FormData()
-        Object.keys(post).forEach((key) =>  {
-            if(key === 'hashtag'){
-                for(let i = 0; i < post[key].length; i++)
-                form.append('hashtag', post[key][i])
+        Object.keys(post).forEach((key) => {
+            if (key === 'hashtag') {
+                for (let i = 0; i < post[key].length; i++)
+                    form.append('hashtag', post[key][i])
             }
             else
-                form.append(key,post[key])
+                form.append(key, post[key])
         })
-       
+
         // console.log(image.current,image.current.getElementsByTagName('input'))
         let input_image = image.current.getElementsByTagName('input')[0]
         // console.log("date current: ",date.current)
@@ -217,19 +222,19 @@ const PostCard = (props) => {
         form.append('image', input_image.files[0])
         // // form.append('start_datetime', start_date)
         // form.append('end_datetime', end_date)
-            
-        let header = {'content-type': 'multipart/form-data'}
-    
-        let p = await callApi('api/newspost/', 'POST', form, header).then(res => {
+
+        let header = { 'content-type': 'multipart/form-data' }
+
+        try {
+            let res = await callApi('api/newspost/', 'POST', form, header)
             if (res.status === 200 || res.status === 201) {
                 alert("bạn đã đăng bài thành công")
                 resetForm()
             }
-            
-        })
-        
-        
-        
+        } catch (err) {
+            console.error("post_card -> postNews",err.responses)
+        }
+
     }
 
 
@@ -244,15 +249,15 @@ const PostCard = (props) => {
                         <MoreVert />
                     </IconButton>
                 }
-                title={`${context.dataProfile.first_name}` + ' '+ `${context.dataProfile.last_name}`}
+                title={`${context.dataProfile.first_name} ${context.dataProfile.last_name}`}
 
 
             />
 
             <CardContent>
 
-                <form  onSubmit={submitHandle} style={{ width: "100%" }} >
-                
+                <form onSubmit={submitHandle} style={{ width: "100%" }} >
+
                     <div className={classes.post}>
                         <TextField
                             id="outlined-select-currency"
@@ -281,19 +286,19 @@ const PostCard = (props) => {
                     {auction()}
 
                     <div className={classes.post} >
-                        <TextField  type="file" 
-                               accept="image/*"
-                                variant="outlined"
-                                placeholder="ảnh"
-                                fullWidth={true}    
-                                name="image"
-                                // value={state.image}
-                                ref={image}
-                                onChange={handleChange}
-                                error={errors.image}
-                                helperText={errors.image ? errors.image : null}
-                                />
-                        
+                        <TextField type="file"
+                            accept="image/*"
+                            variant="outlined"
+                            placeholder="ảnh"
+                            fullWidth={true}
+                            name="image"
+                            // value={state.image}
+                            ref={image}
+                            onChange={handleChange}
+                            error={errors.image}
+                            helperText={errors.image ? errors.image : null}
+                        />
+
                     </div>
                     <div className={classes.post}>
                         <TextField
@@ -347,23 +352,23 @@ const PostCard = (props) => {
                             //     // You can store the "editor" and use when it's needed.
                             //     console.log('Editor is ready to use!', editor);
                             // }}
-                            
-                        
+
+
                             config={{
                                 // extraPlugins: [ MyCustomUploadAdapterPlugin ],
                                 ckfinder: {
-                                   
+
                                     uploadUrl: 'http://localhost:8000/api/newspost/ckeditor/upload/'
                                 },
-                                headers:{'Authorization': localStorage.getItem('token_type') + ' ' + localStorage.getItem('access_token')}
+                                headers: { 'Authorization': localStorage.getItem('token_type') + ' ' + localStorage.getItem('access_token') }
                             }}
                             name="content"
                             onChange={handleCkEditor}
-                            
+
                         />
                     </div>
-                    
-                   
+
+
 
                     <div className={classes.button}>
                         <Button variant="contained" color="primary" type='submit' onClick={postNews}>
@@ -374,9 +379,9 @@ const PostCard = (props) => {
                         </Button>
                     </div>
                 </form>
-                
+
             </CardContent>
-            
+
         </Card >
     )
 }

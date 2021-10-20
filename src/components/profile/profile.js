@@ -11,7 +11,7 @@ import UpdateProfile from './update_profile';
 import MenuCategory from '../menu/menu_newspost';
 import {NewsPostAllUser} from './render_post'
 import {NewsPostContext} from '../../context/newspost'
-import AvatarImg from './upload_avatar';
+// import AvatarImg from './upload_avatar';
 import Avatars from './avatar';
 
 

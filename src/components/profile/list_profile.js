@@ -55,7 +55,7 @@ const ListProfile = (props) => {
                         <Person />
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary="Name" secondary={`${context.dataProfile.first_name}` + " " + `${context.dataProfile.last_name}`} />
+                <ListItemText primary="Name" secondary={`${context.dataProfile.first_name} ${context.dataProfile.last_name}`} />
             </ListItem>
             <Divider variant="inset" component="li" />
             <ListItem>

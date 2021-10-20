@@ -34,7 +34,7 @@ const StyledBadge = withStyles((theme) => ({
       content: '""',
     },
   },
-  
+
   '@keyframes ripple': {
     '0%': {
       transform: 'scale(.8)',
@@ -55,7 +55,7 @@ export default function ProfileMenu() {
     password_new: '',
     password_confirm: '',
   });
-  
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -98,36 +98,37 @@ export default function ProfileMenu() {
   const [errors, setErrors] = useState({});
 
 
-  const validate = (fieldValues = passWords) =>{
+  const validate = (fieldValues = passWords) => {
     let temp = { ...errors }
-    if('password_new' in fieldValues)
-        temp.password_new =  (/$^|(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/).test(fieldValues.password_new) ? "" : 
+    if ('password_new' in fieldValues)
+      temp.password_new = (/$^|(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/).test(fieldValues.password_new) ? "" :
         "Mật khẩu tối thiểu tám ký tự, ít nhất một ký tự hoa, một ký tự viết thường, một số và một ký tự đặc biệt"
-    if('password' in fieldValues) {
-        temp.password =  fieldValues.password ? "" : "Do not leave this field blank"
+    if ('password' in fieldValues) {
+      temp.password = fieldValues.password ? "" : "Do not leave this field blank"
     }
-    if('password_confirm' in fieldValues) 
-      temp.password_confirm =  (/$^|(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/).test(fieldValues.password_confirm) ? "" : 
-      "Mật khẩu tối thiểu tám ký tự, ít nhất một ký tự hoa, một ký tự viết thường, một số và một ký tự đặc biệt"
+    if ('password_confirm' in fieldValues)
+      temp.password_confirm = (/$^|(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/).test(fieldValues.password_confirm) ? "" :
+        "Mật khẩu tối thiểu tám ký tự, ít nhất một ký tự hoa, một ký tự viết thường, một số và một ký tự đặc biệt"
     setErrors({
-        ...temp
+      ...temp
     })
     if (fieldValues === passWords)
-        return Object.passWords(temp).every(x => x == "")
-    
-
-}
+      return Object.passWords(temp).every(x => x === "")
 
 
-const handleChange = (event) => {
-  const target = event.target;
-  const {name, value} = target;
- 
-  setPassWord({...passWords,
-          [name]: value,
-      });
-  validate({ [name]: value })
-}
+  }
+
+
+  const handleChange = (event) => {
+    const target = event.target;
+    const { name, value } = target;
+
+    setPassWord({
+      ...passWords,
+      [name]: value,
+    });
+    validate({ [name]: value })
+  }
 
 
   let history = useHistory()
@@ -150,23 +151,27 @@ const handleChange = (event) => {
   let context = useContext(contexts)
 
 
-  const changePassword = () =>{
-    
-    let patch = {...passWords}
-    let p = callApi('api/accounts/change_password/', 'PATCH', patch, null).then(res => {
-      if (res.status === 200 || res.status === 201) {
-          alert("Bạn đã thay đổi mật khẩu thành công")
-      }
-        CloseDialog()
-        logout()
+  const changePassword = () => {
 
+    let patch = { ...passWords }
+    try {
+      let res = callApi('api/accounts/change_password/', 'PATCH', patch, null)
+      if (res.status === 200 || res.status === 201) {
+        alert("Bạn đã thay đổi mật khẩu thành công")
+      }
+      CloseDialog()
+      logout()
+
+      }catch (err) {
+        console.error("menu profile -> changePassword", err.response)
+        alert(err.response.data.password)
+      }
+    // }).catch ((err) => {
+    //   console.log(err.response.data)
       
-  }).catch((err) => {
-    console.log(err.response.data)
-    alert(err.response.data.password)
-    alert(err.response.data.password_new)
-    alert(err.response.data.password_confirm)
-  })
+    //   alert(err.response.data.password_new)
+    //   alert(err.response.data.password_confirm)
+    // })
   }
 
   return (
@@ -212,9 +217,9 @@ const handleChange = (event) => {
         <DialogTitle id="form-dialog-title">Change Password</DialogTitle>
         <DialogContent>
           <DialogContentText>
-                Note: when you change your password you need to login again
+            Note: when you change your password you need to login again
           </DialogContentText>
-          <div style={{margin: '10px'}}>
+          <div style={{ margin: '10px' }}>
             <TextField
               label="Current password"
               variant="outlined"
@@ -226,7 +231,7 @@ const handleChange = (event) => {
               onChange={handleChange}
             />
           </div>
-          <div style={{margin: '10px'}}>
+          <div style={{ margin: '10px' }}>
             <TextField
               label="A new password"
               variant="outlined"
@@ -238,7 +243,7 @@ const handleChange = (event) => {
               helperText={errors.password_new ? errors.password_new : null}
             />
           </div>
-          <div style={{margin: '10px'}}>
+          <div style={{ margin: '10px' }}>
             <TextField
               label="Enter a new password"
               variant="outlined"
@@ -256,7 +261,7 @@ const handleChange = (event) => {
           <Button onClick={CloseDialog} color="primary">
             Cancel
           </Button>
-          <Button onClick={()=>{changePassword()}} color="primary">
+          <Button onClick={() => { changePassword() }} color="primary">
             Subscribe
           </Button>
         </DialogActions>

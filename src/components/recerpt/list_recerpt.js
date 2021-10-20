@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext} from 'react';
 import { List, Card } from 'antd';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const List_Recerpt = () => {
-    let [color, setColor] = useState()
+    // let [color, setColor] = useState()
     let list = useContext(recerpt)
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     const classes = useStyles();
@@ -73,7 +73,7 @@ const List_Recerpt = () => {
                         <List.Item
                             key={item.id}
                         >
-                            <Link to={'recerpt/' + `${item.id}`} >
+                            <Link to={`recerpt/${item.id}`} >
                                 {item.transaction === null ?
                                     <Card
                                         headStyle={{ backgroundColor: "#ff9800" }}

@@ -4,7 +4,7 @@ import axios from 'axios';
 import qs from 'qs';
 import { useHistory } from "react-router-dom";
 import {contexts} from '../../context/context'
-import firebase, { auth, db} from '../firebase/config';
+import firebase, { auth} from '../firebase/config';
 import {  Link } from 'react-router-dom';
 import { addDocument, generateKeywords } from '../firebase/services';
 
@@ -29,22 +29,20 @@ const Logins = (props) => {
     let login = async event => {
         try{
             let payload = {
-                client_id: 'd5MTFmvkDlLjkEzn5usfikCAhJ7p8gxx31ayMKvR',
-                client_secret: 'Dhg7i0Q4ItQ5ss8vwEjHoRyJfRovJP3FiNkDnZVLB1zOjFujYWwQiJYkfeguwaAf7C9dVzLKqv8YeERJkBajpVOula3bvIeMkM4NcWGFhidSvZ5024bURtGufuUQVF3B',
-                grant_type: 'password',
+                client_id: 'xu9BEmYOGSr2jYzWgtRfNzsJGOMAmeLWc4BUVECj',
                 ...credentials,
             }      
-            console.log(payload)
+            // console.log(payload)
             let res = await axios({
                 method: 'POST',
                 url: 'http://127.0.0.1:8000/o/token/',
                 headers: { 'content-type': 'application/x-www-form-urlencoded' },
                 data: qs.stringify(payload)
             });
-            console.log(res)
+            // console.log(res)
             if (res.status === 200) {
-                console.log('thanh cong')
-                console.log(res);
+                // console.log('thanh cong')
+                // console.log(res);
                 
                 localStorage.setItem('access_token', res.data.access_token);
                 localStorage.setItem('expires_in', res.data.expires_in);
@@ -52,27 +50,27 @@ const Logins = (props) => {
                 localStorage.setItem('token_type', res.data.token_type);
                 localStorage.setItem('scope', res.data.scope);
                 localStorage.setItem('authorization', true);
-                console.log(res.data.access_token);
+                // console.log(res.data.access_token);
                 // this.setState({status_login:true})
                
                 context.authorization = true
                 history.replace("/profile")
                 
-                console.log(context.authorization)
+                // console.log(context.authorization)
                 return
             }
             //   history.replace("/login")
-            console.log("đăng nhập thất bại")
+            // console.log("đăng nhập thất bại")
             // this.setState({ status_login: false })
         }catch(e){
-            console.log(e)
+            console.log("Lỗi đăng nhập", e.response)
         }
        
 
     }
 
     let inputChanged = event => {
-        console.log(event.target.name + "-" + event.target.value)
+        // console.log(event.target.name + "-" + event.target.value)
     
         credentials[event.target.name]=event.target.value
         
@@ -106,8 +104,6 @@ const Logins = (props) => {
     
     return (
         <>
-            
-           
             <div className="img js-fullheight" style={{ backgroundImage: 'url(images/banner1.jpg)', backgroundRepeat: "no-repeat" }}>
                 <section className="ftco-section">
                     <div className="container">

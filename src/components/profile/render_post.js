@@ -33,7 +33,6 @@ export const GetNewsAllUser = async (nav_link, change) => {
     let p = null
     console.log("GetNewsAllUser:nav_link: " + nav_link)
     if (nav_link === 'all') {
-
         p = await callApi('api/newspost/user/?ordering=-created_date', 'GET', null, null)
     }
 
@@ -54,9 +53,6 @@ export const GetNewsAllUser = async (nav_link, change) => {
     // console.log('GetNewsAllUser:', contextNewAll)
     change()
 }
-
-
-
 
 export const NewsPostAllUser = (props) => {
     // state vs props thay đổi thì render lại

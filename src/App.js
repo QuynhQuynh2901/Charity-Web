@@ -18,23 +18,22 @@ import AuthorizationRequired from './components/error/error_401';
 import CausesPage from './components/Cause/causes';
 import AuctionDetail from './components/Auction/auction';
 import Statitical from './components/statitic/Statitical';
-import AppProvider from './context/appProvider';
-import AddRoom from './components/chatBox/AddRoom';
-import InviteMember from './components/chatBox/inviteMember';
+// import AppProvider from './context/appProvider';
+// import AddRoom from './components/chatBox/AddRoom';
+// import InviteMember from './components/chatBox/inviteMember';
 import Search from './components/search/search'
 import Register from './components/register/register';
 import EditPost from './components/profile/edit_post';
 import Notification from './components/notification/notification';
-import Pay from './components/paypal/pay';
+
 import Recerpt from './components/recerpt/recerpt';
 import List_Recerpt from './components/recerpt/list_recerpt';
-
 
 const App = () => {
   const [data, setData] = useState(false)
   const context = useContext(contexts)
   const getProfile = async () => {
-    console.log("aaaaaa")
+    // console.log("aaaaaa")
     let a = await callApi('api/accounts/profile/', 'GET', null, null)
     let b = await callApi('api/accounts/notification/', 'GET', null, null)
     context.dataProfile = a.data
@@ -43,20 +42,17 @@ const App = () => {
     setData(true)
   }
   
-
-console.log(Object.keys(context.dataProfile).length , localStorage.getItem('authorization') )
 if(Object.keys(context.dataProfile).length === 0 && localStorage.getItem('authorization') === "true"){
-  console.log("ffffff")
+  // console.log("ffffff")
   getProfile()
-
 }
 
   return (
  
     <Router>
     
-      <AuthProvider>
-        <AppProvider>
+      {/* <AuthProvider>
+        <AppProvider> */}
       <WebsiteHeader />
       <Switch>
         <Route path="/" exact component={Home} ></Route>
@@ -74,12 +70,11 @@ if(Object.keys(context.dataProfile).length === 0 && localStorage.getItem('author
         <Route path="/notification" component={Notification} ></Route>
         <Route path="/list_recerpt" component={List_Recerpt} ></Route>
         <Route path="/recerpt/:id" component={(props) => (<Recerpt id={props} />)} ></Route>
-        <Route path="/pay" component={Pay} ></Route>
+        {/* <Route path="/pay" component={Pay} ></Route> */}
         <Route path="/chat" component={ChatRoom}></Route>
         {context.authorization === true ?
           <Switch>
             <Route path="/profile" component={Profile}></Route>
-            
             <Route component={Error}></Route>
           </Switch>
           :  <Switch>
@@ -90,10 +85,10 @@ if(Object.keys(context.dataProfile).length === 0 && localStorage.getItem('author
         
       </Switch>
       <WebsiteFooter />
-      <InviteMember />
+      {/* <InviteMember />
       <AddRoom />
       </AppProvider>
-      </AuthProvider>
+      </AuthProvider> */}
     </Router>
 
   );

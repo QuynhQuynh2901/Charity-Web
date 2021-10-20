@@ -29,7 +29,7 @@ const AvatarImg = () => {
     });
   };
   const handleUpload = ({ fileList }) => {
-    console.log('fileList', fileList);
+    // console.log('fileList', fileList);
     setFileList(fileList);
   };
 
@@ -43,16 +43,18 @@ const AvatarImg = () => {
     formData.append("avatar", fileList[0].originFileObj);
 
     let header = { 'content-type': 'multipart/form-data' }
-    let url = 'api/accounts/' + `${context.dataProfile.id}` + '/'
+    let url = `api/accounts/ ${context.dataProfile.id}/`
 
-    let p = await callApi(url, 'PATCH', formData, header).then(res => {
+    try {
+      let res = await callApi(url, 'PATCH', formData, header)
       if (res.status === 200 || res.status === 201) {
         alert("bạn đã đăng avatar thành công")
-
+        setLoadSucess(true)
       }
+    } catch (err) {
+      console.error("error upload_avatar -> handleSubmit: ", err.responses)
+    }
 
-    })
-    setLoadSucess(true)
   };
 
   return (

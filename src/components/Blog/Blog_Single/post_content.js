@@ -17,7 +17,7 @@ const PostContent = () => {
             <div className="submit text-right"><i>Được viết bởi {post.detail.user.username}</i></div>
             {post.detail.category.id === 1 ? <>
                 <div className="submit text-center">
-                    <Link to={"/blog/" + `${post.detail.id}` + "/auction"} props={post.detail} className="btn btn-primary btn-style mt-4">
+                    <Link to={`/blog/${post.detail.id}/auction`} props={post.detail} className="btn btn-primary btn-style mt-4">
                     <Gavel />Auction </Link>
                 </div> 
             </> : ""}    

@@ -1,6 +1,6 @@
 
 
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import  {auth} from '../components/firebase/config';
 import {Spin} from 'antd';
 import { useHistory } from "react-router-dom";
@@ -29,7 +29,7 @@ export default function AuthProvider({ children }){
             unsubscibed();
         }
 
-    }, [])
+    }, [history])
     
 
 

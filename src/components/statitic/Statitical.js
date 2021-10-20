@@ -40,23 +40,19 @@ const Statitical = () => {
         let url = "api/statistical/post/"+ year + "/"
         let au =  await callApi(url, 'GET', null, null)
         // const noAuction = await callApi("api/newspost/user/?category=2", 'GET', null, null)
-       thong.total = au.data
+        // console.log(au.data)
+        thong.total = au.data
+        thong.auction = au.data.filter(d => d.category.id === 1).pop()
+        thong.noAuction = au.data.filter(d => d.category.id === 2).pop()
+        // console.log("thông kê auction",thong.auction)
     }
+
     if(Object.keys(thong.total).length === 0)
         totalStaticial()
 
-    const category = () =>{
-        thong.total && thong.total.filter(d => d.category.id === 1 ).map(res => {
-            thong.auction = res
-        })
-        thong.total && thong.total.filter(d => d.category.id === 2 ).map(res => {
-            thong.noAuction = res
-        })
-    }
-    category()
+
     return (
   
-        
             <Paper className="container" style={{marginTop: "150px"}}>
                 <Grid container spacing={3}>
                     <Grid item xs={6} sm={3}>

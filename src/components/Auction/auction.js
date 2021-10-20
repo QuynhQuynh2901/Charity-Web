@@ -77,8 +77,8 @@ const AuctionDetail = (props) => {
     const GetDetailPost = async () => {
         let url = 'api/newspost/' + props.id.match.params.id + '/'
         // console.log(url)
-        let a = await callApi(url, 'GET', null, null).catch(err => { console.log(err) })
-        console.log(a)
+        let a = await callApi(url, 'GET', null, null).catch(err => { console.log(err.response) })
+        // console.log(a)
         detailPost.detail = a.data
         setGetPostSuccess(true)
     }

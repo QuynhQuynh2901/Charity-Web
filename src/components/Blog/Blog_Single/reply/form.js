@@ -29,10 +29,14 @@ const Form = () => {
         if(context.authorization){
             // let post = {...comment}
             let url = 'api/newspost/' + detailPost.detail.id + '/comment/'
-            let a = await callApi(url, 'POST', comment, null).then(res => {
+            try{
+                let res= await callApi(url, 'POST', comment, null)
                 if (res.status === 200 || res.status === 201) 
-                    alert("bạn đã tạo comment thành công")
-            })
+                alert("bạn đã tạo comment thành công")
+            }catch(err){
+                console.log("blog_post_item -> postComment",err.response)
+            }
+            
         }
         else{
             history.replace("/login")

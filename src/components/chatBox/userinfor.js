@@ -1,8 +1,8 @@
 import { Avatar, Button, Typography} from 'antd';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext} from 'react';
 import styled from 'styled-components'
 import { AuthContext } from '../../context/authprovider';
-import { auth, db } from '../firebase/config';
+import { auth } from '../firebase/config';
 
 const WrapperStyled = styled.div`
     display: flex;

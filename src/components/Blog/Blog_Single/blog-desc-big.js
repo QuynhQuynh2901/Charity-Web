@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {NewsPostContextMod} from '../../../context/newspost_mod'
 import dateFormat from 'dateformat';
-import AuthorImage from './Author/author_image';
+// import AuthorImage from './Author/author_image';
 
 const BlogDescBig = () => {
     let detail = useContext(NewsPostContextMod)

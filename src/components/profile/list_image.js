@@ -7,7 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { contexts } from "../../context/context"
 import callApi from '../../utils/apiCaller';
 import { Dialog, DialogContent, DialogContentText, DialogTitle, Slide} from '@mui/material';
-import { Image } from 'antd';
+// import { Image } from 'antd';
 
 
 const useStyles = makeStyles((theme) => ({

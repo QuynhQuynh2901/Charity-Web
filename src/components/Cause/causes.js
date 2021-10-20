@@ -21,7 +21,6 @@ const CausesPage = () => {
         getPostMod()
     }
 
-
     const GetListPostMod = () => 
     post.results && post.results.map((postItem) => {
           
@@ -35,7 +34,7 @@ const CausesPage = () => {
                     dateCreate={postItem.created_date}
                     description={postItem.description}
                     image={postItem.image}
-                    end_datetime={postItem.category.id === 1 ? postItem.info_auction.end_datetime:undefined}
+                    end_datetime={postItem.category.id === 1 ? postItem.info_auction?.end_datetime:undefined}
             
                 >
             </CausesItem>)

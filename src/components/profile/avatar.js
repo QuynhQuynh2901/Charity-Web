@@ -10,8 +10,8 @@ import { Upload, Modal, Button } from "antd";
 import callApi from '../../utils/apiCaller';
 import ImgCrop from 'antd-img-crop';
 
-import AvatarImg from "./upload_avatar";
-import { CloseOutlined } from "@material-ui/icons";
+// import AvatarImg from "./upload_avatar";
+// import { CloseOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -59,16 +59,18 @@ const Avatars = () => {
         formData.append("avatar", fileList[0].originFileObj);
 
         let header = { 'content-type': 'multipart/form-data' }
-        let url = 'api/accounts/' + `${context.dataProfile.id}` + '/'
-
-        let p = await callApi(url, 'PATCH', formData, header).then(res => {
+        let url = `api/accounts/${context.dataProfile.id}/`
+      try{
+        let res= await callApi(url, 'PATCH', formData, header)
         if (res.status === 200 || res.status === 201) {
-            alert("bạn đã đăng avatar thành công")
-
-        }
-
-        })
-        setLoadSucess(true)
+          alert("bạn đã đăng avatar thành công")
+          setLoadSucess(true)
+      }
+      }catch(err){
+        console.error("avatar.js -> handleSubmit",err.response)
+      }
+        
+        
   };
     const [isModalVisible, setIsModalVisible] = useState(false);
     const classes = useStyles();

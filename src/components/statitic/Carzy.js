@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { statistical } from '../../context/statistical';
 
@@ -47,13 +47,11 @@ const Crazy = () => {
       },
     ],
   });
-  const [data, setData] = useState(genData());
+  
 
-  useEffect(() => {
-    const interval = setInterval(() => setData(genData()), 5000);
-
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   const interval = setInterval(() => setData(), 5000);
+  // }, []);
 
   return (
     <>
@@ -61,7 +59,7 @@ const Crazy = () => {
         <h1 className='title'>Thống kê của loại không đấu giá</h1>
         
       </div>
-      <Bar data={data} options={options} />
+      <Bar data={genData()} options={options} />
     </>
   );
 };

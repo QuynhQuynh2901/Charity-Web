@@ -1,4 +1,3 @@
-
 import React, { useContext, useState } from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -61,13 +60,18 @@ const ListCard = (props) => {
 
     const deletePost = async(id) =>{
         let url = 'api/newspost/' + id + '/'
-        let a = await callApi(url, 'DELETE', null, null).then(res => {
+        try{
+            let res = await callApi(url, 'DELETE', null, null)
             if (res.status === 204)
                 alert("bạn đã xóa bài viết thành công")
-        })
-        handleCloseMenu()
-        console.log("bài viết đã xóa: ", id)
-        setDeletePostSucess(true)
+                handleCloseMenu()
+                console.log("bài viết đã xóa: ", id)
+                setDeletePostSucess(true)
+
+        }catch(err){
+            console.error("list_card.js -> deletePost",err.responses)
+        }
+      
     }
     return (
         <>
@@ -81,7 +85,7 @@ const ListCard = (props) => {
                             <MoreVert onClick={handleClickOpenMenu}/>
                         </IconButton>
                     }
-                    title={`${context.dataProfile.first_name}` + " " + `${context.dataProfile.last_name}`}
+                    title={`${context.dataProfile.first_name} ${context.dataProfile.last_name}`}
                     subheader={props.dateCreate}
                 />
                 <h5>{hh()}</h5>
@@ -121,7 +125,7 @@ const ListCard = (props) => {
                     id="filled-full-width"
                     style={{ margin: 8 }}
                     placeholder="Comment"
-                    label={`${context.dataProfile.first_name}` + " " + `${context.dataProfile.last_name}`}
+                    label={`${context.dataProfile.first_name} ${context.dataProfile.last_name}`}
                     helperText="thời gian comment"
                     fullWidth={true}
                     margin="normal"
@@ -140,8 +144,8 @@ const ListCard = (props) => {
                 open={Boolean(anchorEl)}
                 onClose={handleCloseMenu}
             >
-                <MenuItem><Link to={'blog_single/' + `${props.id}`}>Detail</Link></MenuItem>
-                <MenuItem><Link to={'edit_post/' + `${props.id}`}>Update</Link></MenuItem>
+                <MenuItem><Link to={`blog_single/${props.id}`}>Detail</Link></MenuItem>
+                <MenuItem><Link to={`edit_post/${props.id}`}>Update</Link></MenuItem>
                 <MenuItem onClick={() => {deletePost(props.id)}}>Delete</MenuItem>
             </Menu>
         </>

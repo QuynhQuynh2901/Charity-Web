@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Paper, Avatar } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { contexts } from '../../context/context'
+// import { contexts } from '../../context/context'
 import callApi from '../../utils/apiCaller';
 import { List,  Button, Skeleton } from 'antd';
 
@@ -52,10 +52,7 @@ const Notification = () => {
                 })
             })
         }
-        
-
-
-    }, [loading])
+    }, [loading,page.number])
 
     const onLoadMore = () => {
     
@@ -126,7 +123,7 @@ const Notification = () => {
                     dataSource={loading.list}
                     renderItem={item => (
                         <List.Item
-                            actions={[<a key="list-loadmore-edit">edit</a>, <a key="list-loadmore-more">more</a>]}
+                            // actions={[<a key="list-loadmore-edit" href='javascript:void(0)'>edit</a>, <a key="list-loadmore-more" href='javascript:void(0)'>more</a>]}
                         >
                             <Skeleton avatar title={false} loading={item.loading} active>
                                 <List.Item.Meta

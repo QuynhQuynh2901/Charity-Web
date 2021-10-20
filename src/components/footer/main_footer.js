@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import FooterContent from './footer_content';
 import FooterFlex from './footer_flex';
 import Session from './session';

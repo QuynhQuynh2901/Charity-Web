@@ -8,7 +8,7 @@ import { recerpt } from '../../context/recerpt';
 
 const PayPal = (props) => { 
     let detail = useContext(recerpt)
-    console.log("pays   : ", props)
+    // console.log("pays   : ", props)
     let payloads = props.payload
     return (
         <div className="card">
@@ -35,9 +35,11 @@ const PayPal = (props) => {
                             alert("You winner")
                             // toast.success('Payment completed. Thank you, ' + details.payer.name.given_name + ' ' +details.payer.name.surname)
                             let data = {...details, auction_item_id: props.auction_item_id}
-                            let a =  callApi("api/pay/paypal/result/", 'POST', data, null)
-                         
-
+                            try{
+                                 callApi("api/pay/paypal/result/", 'POST', data, null)
+                            }catch(err){
+                                console.log("paylpal.js -> PayPal", err.response)
+                            }
                         });
                     }}
                     onCancel={() => 

@@ -20,7 +20,7 @@ export default function ShowMessage() {
   const [mess, setMess] = React.useState({});
 
 
-  const Notification = (props = dataMess.dataNotification) => 
+  const Notification = (props = dataMess.dataNotification) =>
     props.results && props.results.map((item, index) => {
       return (
         <>
@@ -29,47 +29,48 @@ export default function ShowMessage() {
             key={item.id}
             active={item.active}
             // style={{ height: "300px", overflowY: "inherit" }}
-            onClick={() => {OpenDialog(item.id)}}
+            onClick={() => { OpenDialog(item.id) }}
           >
             <Badge.Ribbon text={item.new === true ? "new" : "old"} color={item.new === true ? "green" : "purple"}>
               <Card type="inner" title={item.title} size="small" >
                 <span style={{
-                            whiteSpace: "pre-wrap", 
-                            textOverflow: "ellipsis", 
-                            overflow: "hidden", 
-                            WebkitLineClamp: "3",
-                            WebkitBoxOrient: "vertical",
-                            // width: "100%", 
-                            display: "block", 
-                            // display: "-webkit-box",
-                            height:"16px*1.3*3",
-                            textAlign: "justify"}}  >
+                  whiteSpace: "pre-wrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  WebkitLineClamp: "3",
+                  WebkitBoxOrient: "vertical",
+                  // width: "100%", 
+                  display: "block",
+                  // display: "-webkit-box",
+                  height: "16px*1.3*3",
+                  textAlign: "justify"
+                }}  >
                   {item.message}
-                  </span>
+                </span>
               </Card>
             </Badge.Ribbon>
           </Menu.Item>
-          
+
         </>
       )
     });
 
-  
+
 
   const OpenDialog = (props) => {
-    let read ={new: false}
+    let read = { new: false }
     let url = 'api/accounts/notification/?id=' + props + ''
-    let b = callApi(url, 'PATCH', read, null)
+    callApi(url, 'PATCH', read, null)
 
     setOpen(true);
     // setMess(dataMess.dataNotification.results[props])
-    for(let i = 0; i < dataMess.dataNotification.results.length; i++){
-        if(dataMess.dataNotification.results[i].id == props){
-          setMess(dataMess.dataNotification.results[i])
-        }
+    for (let i = 0; i < dataMess.dataNotification.results.length; i++) {
+      if (dataMess.dataNotification.results[i].id === props) {
+        setMess(dataMess.dataNotification.results[i])
+      }
     }
-    console.log(props)
-    console.log(mess)
+    // console.log(props)
+    // console.log(mess)
   };
 
   const CloseDialog = (props) => {
@@ -80,19 +81,22 @@ export default function ShowMessage() {
   };
 
 
-  const Delete = async(props) =>{
+  const Delete = async (props) => {
     console.log(props)
     let url = 'api/accounts/notification/?id=' + props + ''
-    let b = await callApi(url, 'DELETE', null, null).then(res => {
+    try {
+      let res = await callApi(url, 'DELETE', null, null)
       if (res.status === 204) {
         alert("bạn đã xóa thông báo thành công")
         CloseDialog()
+      }
+    } catch (err) {
+      alert(err.response.data)
     }
-  }).catch(err => {alert(err.response.data)})
   }
 
   const menu = (
-    <Menu style={{ width: "320px", height: "400px", overflowY: "scroll"}}>
+    <Menu style={{ width: "320px", height: "400px", overflowY: "scroll" }}>
       <MenuItem> <Link to='/notification' className="blog-desc-big">See all notifications</Link></MenuItem>
       {Notification()}
     </Menu>
@@ -105,22 +109,22 @@ export default function ShowMessage() {
           <NotificationsActiveIcon color="secondary" style={{ fontSize: 30, color: "blue" }} />
         </Badge>
       </Dropdown>
-        <Dialog open={open} aria-labelledby="form-dialog-title">
+      <Dialog open={open} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{mess.title}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-              Notification: {mess.message} 
+            Notification: {mess.message}
           </DialogContentText>
           <DialogContentText>
-              Time: {dateFormat(mess.created_date, "dd-mm-yyyy HH:MM:ss TT")}, id: {mess.id}
+            Time: {dateFormat(mess.created_date, "dd-mm-yyyy HH:MM:ss TT")}, id: {mess.id}
           </DialogContentText>
 
         </DialogContent>
         <DialogActions>
-          <Button onClick={() =>{CloseDialog(mess.id)}} color="primary">
+          <Button onClick={() => { CloseDialog(mess.id) }} color="primary">
             Cancel
           </Button>
-          <Button onClick={() => {Delete(mess.id)}} color="primary">
+          <Button onClick={() => { Delete(mess.id) }} color="primary">
             Delete
           </Button>
         </DialogActions>
